@@ -61,7 +61,7 @@ public class SpellBuild : MonoBehaviour, IGameEventListener<SpellSelectEventInfo
             }
             returnMaxLayer.Invoke(spellOrder.spellPhasesList.Count);
         }
-        //if withing layerlimit remember choice and invoke the appropriate layer event 
+        //if within layerlimit remember choice and invoke the appropriate layer event 
         else if (arg.layer <= spellOrder.spellPhasesList.Count)
         {
             this.choice = arg.buttonInfo.choice;
