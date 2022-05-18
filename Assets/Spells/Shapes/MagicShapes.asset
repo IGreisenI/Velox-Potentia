@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ce952fa2d12c7b458d5c465834d2d82, type: 3}
+  m_Name: MagicShapes
+  m_EditorClassIdentifier: 
+  shapes:
+  - shape: circle
+    shapeSprite: {fileID: 21300000, guid: 96edb3843d180f94fa23acf782e4ae42, type: 3}
+  - shape: hexagon
+    shapeSprite: {fileID: 21300000, guid: 2e95a4d4ce4637840b6bd30321470726, type: 3}
+  - shape: rhombus
+    shapeSprite: {fileID: 21300000, guid: 01eecec69dd28c146ae858342b0bafa8, type: 3}
+  - shape: square
+    shapeSprite: {fileID: 21300000, guid: c779a53ec7cdf7143a1300d22b5a152c, type: 3}
+  - shape: star
+    shapeSprite: {fileID: 21300000, guid: 65ceb0f2cca6d7a4ab5daefb2f631a6d, type: 3}
+  - shape: triangle
+    shapeSprite: {fileID: 21300000, guid: 4b01184d3a6a6b04cae16c6723639bad, type: 3}

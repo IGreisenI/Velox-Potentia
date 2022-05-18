@@ -1,57 +1,34 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-[Serializable]
-public class MoveInputEvent : UnityEvent<float, float> { }
-[Serializable]
-public class JumpInputEvent : UnityEvent<float> { }
-[Serializable]
-public class RunInputEvent : UnityEvent<float> { }
-[Serializable]
-public class CastSpellInputEvent : UnityEvent<float> { }
-[Serializable]
-public class SelectSpellInputEvent : UnityEvent<float> { }
-[Serializable]
-public class CancleSelectSpellInputEvent : UnityEvent<float> { }
-[Serializable]
-public class CancleSpellInputEvent : UnityEvent<float> { }
-
-public class InputController : MonoBehaviour
+[CreateAssetMenu(fileName = "Controller", menuName = "Controller/InputController")]
+public class InputController : ScriptableObject, VeloxActions.IPlayerActions
 {
-    public static VeloxActions controls;
-    public MoveInputEvent moveInputEvent;
-    public JumpInputEvent jumpInputEvent;
-    public RunInputEvent runInputEvent;
-    public CastSpellInputEvent castSpellInputEvent;
-    public SelectSpellInputEvent selectSpellInputEvent;
-    public CancleSelectSpellInputEvent cancleSelectSpellInputEvent;
-    public CancleSpellInputEvent cancleSpellInputEvent;
+    public event UnityAction<Vector2> moveInputEvent;
+    public event UnityAction<float> jumpInputEvent;
+    public event UnityAction<float> selectSpellInputEvent;
+    public event UnityAction castSpellInputEvent;
+    public event UnityAction cancelSelectSpellInputEvent;
+    public event UnityAction cancelSpellInputEvent;
 
-
-    private void Awake()
-    {
-        controls = new VeloxActions();
-        switchCursorState(false, CursorLockMode.Locked);
-    }
+    private VeloxActions controls;
 
     private void OnEnable()
     {
+        if (controls == null)
+        {
+            controls = new VeloxActions();
+            controls.Player.SetCallbacks(this);
+            switchCursorState(false, CursorLockMode.Locked);
+        }
         controls.Player.Enable();
-        controls.Player.Move.performed += OnMovePerformed;
-        controls.Player.Jump.performed += OnJumpPerformed;
-        controls.Player.Run.performed += OnRunPerformed;
-        controls.Player.Cast.performed += OnLeftClickPerformed;
-        controls.Player.Select.started += OnRightClickPerformed;
-        controls.Player.Cancel.started += OnCtrlPerformed;
+    }
 
-        controls.Player.Move.canceled += OnMovePerformed;
-        controls.Player.Jump.canceled += OnJumpPerformed;
-        controls.Player.Run.canceled += OnRunPerformed;
-        controls.Player.Select.canceled += OnRightClickCancled;
+    private void OnDisable()
+    {
+        controls.Player.Disable();
     }
 
     private void switchCursorState(bool visible, CursorLockMode lockMode)
@@ -60,47 +37,46 @@ public class InputController : MonoBehaviour
         Cursor.visible = visible;
     }
 
-    private void OnJumpPerformed(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context)
     {
-        float jumpInput = context.ReadValue<float>();
-        jumpInputEvent.Invoke(jumpInput);
+        if (moveInputEvent != null && context.phase == InputActionPhase.Performed)
+            moveInputEvent.Invoke(context.ReadValue<Vector2>());
+        if (moveInputEvent != null && context.phase == InputActionPhase.Canceled)
+            moveInputEvent.Invoke(context.ReadValue<Vector2>());
     }
 
-    private void OnRunPerformed(InputAction.CallbackContext context)
+    public void OnCast(InputAction.CallbackContext context)
     {
-        float runInput = context.ReadValue<float>();
-        runInputEvent.Invoke(runInput);
+        if (castSpellInputEvent != null && context.phase == InputActionPhase.Performed)
+            castSpellInputEvent.Invoke();
     }
 
-    private void OnMovePerformed(InputAction.CallbackContext context)
+    public void OnSelect(InputAction.CallbackContext context)
     {
-        Vector2 moveInput = context.ReadValue<Vector2>();
-        moveInputEvent.Invoke(moveInput.x, moveInput.y);
+        if (selectSpellInputEvent != null && context.phase == InputActionPhase.Performed) {
+            selectSpellInputEvent.Invoke(context.ReadValue<float>());
+        }
+        if (selectSpellInputEvent != null && context.phase == InputActionPhase.Canceled) {
+            selectSpellInputEvent.Invoke(context.ReadValue<float>());
+        }
     }
 
-    private void OnLeftClickPerformed(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
-        float selectInput = context.ReadValue<float>();
-        castSpellInputEvent.Invoke(selectInput);
+        if (jumpInputEvent != null && context.phase == InputActionPhase.Performed)
+            jumpInputEvent.Invoke(context.ReadValue<float>());
+        if (jumpInputEvent != null && context.phase == InputActionPhase.Canceled)
+            jumpInputEvent.Invoke(context.ReadValue<float>());
     }
 
-    private void OnRightClickPerformed(InputAction.CallbackContext context)
+    public void OnCancel(InputAction.CallbackContext context)
     {
-        float selectInput = context.ReadValue<float>();
-        selectSpellInputEvent.Invoke(selectInput);
-        switchCursorState(true, CursorLockMode.Confined);
+        if (cancelSpellInputEvent != null && context.phase == InputActionPhase.Performed)
+            cancelSpellInputEvent.Invoke();
     }
 
-    private void OnRightClickCancled(InputAction.CallbackContext context)
+    public void OnLook(InputAction.CallbackContext context)
     {
-        float selectInput = context.ReadValue<float>();
-        cancleSelectSpellInputEvent.Invoke(selectInput);
-        switchCursorState(false, CursorLockMode.Locked);
-    }
 
-    private void OnCtrlPerformed(InputAction.CallbackContext context)
-    {
-        float selectInput = context.ReadValue<float>();
-        cancleSpellInputEvent.Invoke(selectInput);
     }
 }

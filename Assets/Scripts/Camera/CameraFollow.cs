@@ -1,27 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform target;
-    public float smoothspeed;
-    public Vector3 offset;
+    [SerializeField] private InputController _inputController = default;
+
+    public CinemachineFreeLook playerCamera;
 
     private void Start()
     {
-        smoothspeed = 0.01f;
-        offset = new Vector3(0, 3, -5);
+
     }
 
-    private void LateUpdate()
+    private void OnEnable()
     {
-        Vector3 desiredPosition = target.position + offset;
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothspeed);
+        _inputController.selectSpellInputEvent += OnSelectInput;
+    }
 
-        transform.position = smoothedPosition;
+    private void OnDisable()
+    {
+        _inputController.selectSpellInputEvent -= OnSelectInput;
+    }
 
-        transform.LookAt(transform);
-
+    public void OnSelectInput(float select)
+    {
+        if (select == 1)
+        {
+            playerCamera.m_XAxis.m_InputAxisName = "";
+            playerCamera.m_XAxis.m_InputAxisValue = 0;
+            playerCamera.m_YAxis.m_InputAxisName = "";
+            playerCamera.m_YAxis.m_InputAxisValue = 0;
+        }
+        else
+        {
+            playerCamera.m_XAxis.m_InputAxisName = "Mouse X";
+            playerCamera.m_YAxis.m_InputAxisName = "Mouse Y";
+        }
     }
 }

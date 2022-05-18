@@ -31,24 +31,16 @@
                 },
                 {
                     "name": "Select",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "2bf7e75e-dc19-4f85-b327-928ac0a9c337",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 },
                 {
                     "name": "Jump",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "fbed00a3-4c70-468d-9ca6-21bc8f921e4c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Run",
-                    "type": "Button",
-                    "id": "815fe407-4c5b-4c9a-8925-be1ef0e2399c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -247,17 +239,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0b3345c9-573f-4aad-96a3-7041d4f4880c",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 6838151711011577084}
   - component: {fileID: 6838151711011577085}
   - component: {fileID: 6838151711011577074}
+  - component: {fileID: 2313712460925208441}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -174,12 +175,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc2c34e94ff0f4c86e6809306051f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputController: {fileID: 11400000, guid: 6006a0e538e3a5a44b4f7d9ea0c47b8b, type: 2}
   cameraTransform: {fileID: 0}
   rb: {fileID: 6838151711011577085}
   moveSpeed: 5
-  runMultiplier: 0.5
   jumpMultiplier: 3
-  rotationTime: 0.1
   rotationSpeed: 75
 --- !u!54 &6838151711011577085
 Rigidbody:
@@ -209,74 +209,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 242794a569bba0349ade4f5ed7cdc9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elementEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: modifySpell
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  shapeEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: modifySpell
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  fromEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  rangeEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  positionEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  typeEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  durationEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  targetEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  updateChoicesEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: updateSelection
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   baseSpellPrefab: {fileID: 715723665593357182, guid: 14b0304f86428b14ebfe8bd8dd8d9b6f,
     type: 3}
-  offensiveSpellOrder: {fileID: 11400000, guid: 6e9ba804ddd0b974e9a55a93c0e8e0bf,
-    type: 2}
-  defensiveSpellOrder: {fileID: 11400000, guid: 4510b7201d364ab428c770465aca8c0e,
-    type: 2}
-  utilitySpellOrder: {fileID: 11400000, guid: 013e4e1971b917b4c98a7a5a8abb2ac5, type: 2}
-  spellOrder: {fileID: 0}
+  spellSelectEvent: {fileID: 0}
+  spellSelectResponse:
+    m_PersistentCalls:
+      m_Calls: []
+  returnMaxLayer:
+    m_PersistentCalls:
+      m_Calls: []
+  offensiveSpellPhases: {fileID: 0}
+  defensiveSpellPhases: {fileID: 0}
+  utilitySpellPhases: {fileID: 0}
+--- !u!114 &2313712460925208441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6838151711011577081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2f907ee0102c8942aff0be43af2a5fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellSelectEvent: {fileID: 11400000, guid: 945fd070719392b4a816d8cde4c108c8, type: 2}
+  magicCirclePrefab: {fileID: 5633900559844694432, guid: ba5fafc5c4d196c46a96b781f775024b,
+    type: 3}
+  playerCamera: {fileID: 0}
+  castingHand: {fileID: 0}
 --- !u!1 &6838151711451643976
 GameObject:
   m_ObjectHideFlags: 0

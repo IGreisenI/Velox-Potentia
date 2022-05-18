@@ -4,33 +4,57 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private InputController _inputController = default;
+
     public Transform cameraTransform;
     public Rigidbody rb = new Rigidbody();
 
     public float moveSpeed = 5.0f;
-    public float runMultiplier = 0.5f;
     public float jumpMultiplier = 5.0f;
     public float rotationSpeed = 10.0f;
 
-    float horizontal;
-    float vertical;
+    Vector2 movement;
     float jump;
-    float run;
+    bool runInput;
     float select;
+
+    Vector3 lookDirection;
+    Vector3 moveDirection;
+    Vector3 projectedCameraForward;
+    Quaternion rotationToCamera;
 
     bool grounded = false;
 
+    public void Start()
+    {
+        lookDirection = transform.forward;
+    }
+
+    public void OnEnable()
+    {
+        _inputController.moveInputEvent += OnMoveInput;
+        _inputController.jumpInputEvent += OnJumpInitiated;
+    }
+
+    public void OnDisable()
+    {
+        _inputController.moveInputEvent -= OnMoveInput;
+        _inputController.jumpInputEvent -= OnJumpInitiated;
+    }
+
     public void FixedUpdate()
     {
-        Vector3 moveDirection = Vector3.forward * vertical + Vector3.right * horizontal;
-        Vector3 projectedCameraForward = Vector3.ProjectOnPlane(cameraTransform.forward, Vector3.up);
-        Quaternion rotationToCamera = Quaternion.LookRotation(projectedCameraForward, Vector3.up);
-        
-        moveDirection = rotationToCamera.normalized * moveDirection;
+        projectedCameraForward = Vector3.ProjectOnPlane(cameraTransform.forward, Vector3.up);
+        rotationToCamera = Quaternion.LookRotation(projectedCameraForward, Vector3.up);
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationToCamera, rotationSpeed * Time.deltaTime);
-        
-        transform.position += moveDirection * moveSpeed * (run * runMultiplier + 1) * Time.deltaTime;
+        moveDirection = Vector3.forward * movement.y + Vector3.right * movement.x;
+        moveDirection = rotationToCamera.normalized * moveDirection;
+        if (moveDirection != Vector3.zero)
+            lookDirection = moveDirection;
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookDirection), rotationSpeed * Time.deltaTime);
+
+        transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
         if (grounded) {
             rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
@@ -41,20 +65,14 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    public void OnMoveInput(float horizontal, float vertical)
+    public void OnMoveInput(Vector2 direction)
     {
-        this.vertical = vertical;
-        this.horizontal = horizontal;
+        this.movement = direction;
     }
 
-    public void OnJumpInput(float jump)
+    public void OnJumpInitiated(float jumped)
     {
-        this.jump = jump * jumpMultiplier;
-    }
-
-    public void OnRunInput(float run)
-    {
-        this.run = run;
+        this.jump = jumpMultiplier * jumped;
     }
     
     public void OnCollisionEnter(Collision collision)
@@ -63,7 +81,6 @@ public class PlayerController : MonoBehaviour
         {
             grounded = true;
         }
-        Debug.Log(grounded);
     }
 
     public void OnCollisionExit(Collision collision)
@@ -72,6 +89,5 @@ public class PlayerController : MonoBehaviour
         {
             grounded = false;
         }
-        Debug.Log(grounded);
     }
 }

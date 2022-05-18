@@ -5,11 +5,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+[System.Serializable]
+public struct SpellSelectButtonInfo
+{
+    public string choice;
+    public Sprite shape;
+}
+
 public class UISelectSpellButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool state = false;
-    public string choice = "";
-    public string shape = "";
+    public SpellSelectButtonInfo buttonInfo;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -25,12 +31,12 @@ public class UISelectSpellButton : MonoBehaviour, IPointerEnterHandler, IPointer
     void Start()
     {
         this.GetComponent<Image>().alphaHitTestMinimumThreshold = 0.5f;
-        choice = this.gameObject.GetComponentInChildren<TMP_Text>().text;
+        buttonInfo.choice = this.gameObject.GetComponentInChildren<TMP_Text>().text;
     }
     
     public void updateButtonText(string choice)
     {
-        this.choice = choice;
+        buttonInfo.choice = choice;
         this.gameObject.GetComponentInChildren<TMP_Text>().text = choice;
     }
 }

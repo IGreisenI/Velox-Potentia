@@ -4,86 +4,95 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[Serializable]
-public class SelectionEvent : UnityEvent<string, string, int> { }
-
 public class SelectionUI : MonoBehaviour
 {
-    #region StringsForButtons
+    [SerializeField] private InputController _inputController = default;
+    
     [SerializeField]
     public StringListSO MagicTypes;
-    [SerializeField]
-    public StringListSO Element;
-    [SerializeField]
-    public StringListSO Shape;
-    [SerializeField]
-    public StringListSO From;
-    [SerializeField]
-    public StringListSO Range;
-    [SerializeField]
-    public StringListSO Position;
-    [SerializeField]
-    public StringListSO Type;
-    [SerializeField]
-    public StringListSO Duration;
-    [SerializeField]
-    public StringListSO Target;
-    #endregion
 
     private List<Transform> selectionButtons = new List<Transform>();
-
-    public SelectionEvent selectionEvent;
+    private List<UISelectSpellButton> buttonScripts = new List<UISelectSpellButton>();
+    public SpellSelectEvent spellSelectionEvent;
+    public GameObject selection;
 
     int selectLayer = 0;
+    // Default value
+    int maxLayer = 5;
+    
+    private void OnEnable()
+    {
+        _inputController.selectSpellInputEvent += OnSelectInput;
+    }
+
+    private void OnDisable()
+    {
+        _inputController.selectSpellInputEvent -= OnSelectInput;    
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < this.gameObject.transform.childCount; i++)
+        for (int i = 0; i < selection.transform.childCount; i++)
         {
-            selectionButtons.Add(this.gameObject.transform.GetChild(i));
+            selectionButtons.Add(selection.transform.GetChild(i));
+            buttonScripts.Add(selectionButtons[i].GetComponentInChildren<UISelectSpellButton>());
         }
     }
 
     public void OnSelectInput(float select)
     {
-        if (select == 1)
+        if (selectLayer < maxLayer)
         {
-            this.gameObject.SetActive(true);
-        }
-        else
-        {
-            foreach (Transform button in selectionButtons)
+            if (select > 0)
             {
-                UISelectSpellButton buttonScript = button.GetComponentInChildren<UISelectSpellButton>();
-                if (buttonScript.state && buttonScript.choice != "")
-                {
-                    selectionEvent.Invoke(buttonScript.choice, buttonScript.shape, selectLayer);
-                    button.GetComponentInChildren<UISelectSpellButton>().state = false;
-                    selectLayer += 1;
-                }
+                switchCursorState(true, CursorLockMode.Confined);
+                selection.SetActive(true);
             }
-            this.gameObject.SetActive(false);
+            else
+            {
+                foreach (UISelectSpellButton script in buttonScripts)
+                {
+                    if (script.state && script.buttonInfo.choice != "")
+                    {
+                        spellSelectionEvent.Raise(new SpellSelectEventInfo(script.buttonInfo, selectLayer));
+                        script.state = false;
+                        selectLayer += 1;
+                    }
+                }
+                selection.SetActive(false);
+                switchCursorState(false, CursorLockMode.Locked);
+            }
         }
-        
     }
 
-    public void updateSelection(string layer)
+    public void updateSelection(List<string> choices)
     {
-        for (int i = 0; i < selectionButtons.Count; i++)
+        for (int i = 0; i < choices.Count; i++)
         {
-            selectionButtons[i].transform.GetComponentInChildren<UISelectSpellButton>().updateButtonText(((StringListSO)GetType().GetField(layer).GetValue(this)).strings[i]);
+            buttonScripts[i].updateButtonText(choices[i]);
         }
+    }
+
+    public void setMaxSelectLayer(int max)
+    {
+        this.maxLayer = max;
     }
 
     public void resetSelectLayer()
     {
         selectLayer = 0;
 
-        for (int i = 0; i < selectionButtons.Count; i+=2)
+        for (int i = 0; i < buttonScripts.Count; i+=2)
         {
-            selectionButtons[i].transform.GetComponentInChildren<UISelectSpellButton>().updateButtonText("");
-            selectionButtons[i+1].transform.GetComponentInChildren<UISelectSpellButton>().updateButtonText(MagicTypes.strings[i/2]);
+            buttonScripts[i].updateButtonText("");
+            buttonScripts[i+1].updateButtonText(MagicTypes.strings[i/2]);
         }
+    }
+
+    private void switchCursorState(bool visible, CursorLockMode lockMode)
+    {
+        Cursor.lockState = lockMode;
+        Cursor.visible = visible;
     }
 }

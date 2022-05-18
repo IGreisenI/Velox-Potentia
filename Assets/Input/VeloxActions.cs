@@ -44,24 +44,16 @@ public class @VeloxActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Select"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""2bf7e75e-dc19-4f85-b327-928ac0a9c337"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""Jump"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""fbed00a3-4c70-468d-9ca6-21bc8f921e4c"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Run"",
-                    ""type"": ""Button"",
-                    ""id"": ""815fe407-4c5b-4c9a-8925-be1ef0e2399c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -260,17 +252,6 @@ public class @VeloxActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0b3345c9-573f-4aad-96a3-7041d4f4880c"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -864,7 +845,6 @@ public class @VeloxActions : IInputActionCollection, IDisposable
         m_Player_Cast = m_Player.FindAction("Cast", throwIfNotFound: true);
         m_Player_Select = m_Player.FindAction("Select", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -932,7 +912,6 @@ public class @VeloxActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Cast;
     private readonly InputAction m_Player_Select;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Cancel;
     public struct PlayerActions
     {
@@ -943,7 +922,6 @@ public class @VeloxActions : IInputActionCollection, IDisposable
         public InputAction @Cast => m_Wrapper.m_Player_Cast;
         public InputAction @Select => m_Wrapper.m_Player_Select;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -969,9 +947,6 @@ public class @VeloxActions : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Run.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
-                @Run.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
-                @Run.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRun;
                 @Cancel.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancel;
                 @Cancel.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancel;
                 @Cancel.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancel;
@@ -994,9 +969,6 @@ public class @VeloxActions : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @Run.started += instance.OnRun;
-                @Run.performed += instance.OnRun;
-                @Run.canceled += instance.OnRun;
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
@@ -1161,7 +1133,6 @@ public class @VeloxActions : IInputActionCollection, IDisposable
         void OnCast(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnRun(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
     }
     public interface IUIActions
