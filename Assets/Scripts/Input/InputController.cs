@@ -10,7 +10,6 @@ public class InputController : ScriptableObject, VeloxActions.IPlayerActions
     public event UnityAction<float> jumpInputEvent;
     public event UnityAction<float> selectSpellInputEvent;
     public event UnityAction castSpellInputEvent;
-    public event UnityAction cancelSelectSpellInputEvent;
     public event UnityAction cancelSpellInputEvent;
 
     private VeloxActions controls;

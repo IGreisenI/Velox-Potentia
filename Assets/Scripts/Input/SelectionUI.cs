@@ -11,10 +11,12 @@ public class SelectionUI : MonoBehaviour
     [SerializeField]
     public StringListSO MagicTypes;
 
-    private List<Transform> selectionButtons = new List<Transform>();
-    private List<UISelectSpellButton> buttonScripts = new List<UISelectSpellButton>();
+    public MaxLayerEvent maxLayerEvent;
     public SpellSelectEvent spellSelectionEvent;
     public GameObject selection;
+
+    private List<Transform> selectionButtons = new List<Transform>();
+    private List<UISelectSpellButton> buttonScripts = new List<UISelectSpellButton>();
 
     int selectLayer = 0;
     // Default value
@@ -23,11 +25,13 @@ public class SelectionUI : MonoBehaviour
     private void OnEnable()
     {
         _inputController.selectSpellInputEvent += OnSelectInput;
+        _inputController.cancelSpellInputEvent += OnCancelSpell;
     }
 
     private void OnDisable()
     {
-        _inputController.selectSpellInputEvent -= OnSelectInput;    
+        _inputController.selectSpellInputEvent -= OnSelectInput;
+        _inputController.cancelSpellInputEvent += OnCancelSpell;
     }
 
     // Start is called before the first frame update
@@ -63,7 +67,17 @@ public class SelectionUI : MonoBehaviour
                 selection.SetActive(false);
                 switchCursorState(false, CursorLockMode.Locked);
             }
+
+            if (selectLayer == maxLayer - 1)
+            {
+                maxLayerEvent.Raise(new MaxLayer());
+            }
         }
+    }
+
+    public void OnCancelSpell()
+    {
+        resetSelectLayer();
     }
 
     public void updateSelection(List<string> choices)

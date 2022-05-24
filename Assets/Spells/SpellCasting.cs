@@ -3,36 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class SpellCasting : MonoBehaviour
+public class SpellCasting : MonoBehaviour, IGameEventListener<SpellBuiltEventInfo>, IGameEventListener<MagicCircleBuiltInfo>
 {
     [SerializeField] private InputController _inputController = default;
 
-    public GameObject spell;
-    public GameObject magicCirclePrefab;
+    public SpellBuiltEvent spellBuiltEvent;
     public GameObject player;
-    public SpellStatsSO spellStats;
     public Camera playerCamera;
+    private bool spellBuilt;
+    private GameObject spell;
+    private GameObject magicCircle;
+    private SpellStatsSO spellStats;
 
     private void OnEnable()
     {
         _inputController.castSpellInputEvent += OnCast;
+        _inputController.cancelSpellInputEvent += OnCancelSpell;
+        spellBuiltEvent.RegisterListener(this);
     }
 
     private void OnDisable()
     {
         _inputController.castSpellInputEvent -= OnCast;
-    }
-
-
-    public void saveFinishedSpell(GameObject spell)
-    {
-        this.spell = spell;
-        spellStats = spell.GetComponentInChildren<SpellStats>().stats;
+        _inputController.cancelSpellInputEvent -= OnCancelSpell;
+        spellBuiltEvent.UnregisterListener(this);
     }
 
     public void OnCast()
     {
-        saveFinishedSpell(this.spell);
+        // If spell/magic circle is not built don't execute past this point
+        if (!spellBuilt || !magicCircle)
+            return;
 
         Vector3 cameraPos = playerCamera.transform.position;
         Vector3 lookDir = playerCamera.transform.forward;
@@ -50,7 +51,7 @@ public class SpellCasting : MonoBehaviour
                 Vector3 right = Vector3.Cross(normalDir, hitPos.normalized);
                 Vector3 forward = Vector3.Cross(right.normalized, normalDir);
 
-                GameObject magicCircle = Instantiate(magicCirclePrefab, hit.point, Quaternion.LookRotation(normalDir, forward));
+                GameObject magicCircleCopy = Instantiate(magicCircle, hit.point, Quaternion.LookRotation(normalDir, forward));
             }
             else if (spellStats.from.ToLower().Contains("caster"))
             {
@@ -61,5 +62,23 @@ public class SpellCasting : MonoBehaviour
 
             }
         }
+    }
+
+    public void OnCancelSpell()
+    {
+        spellBuilt = false;
+    }
+
+    public void OnEventRaised(SpellBuiltEventInfo args)
+    {
+        spellBuilt = true;
+
+        this.spell = args.spellObject;
+        spellStats = args.spellObject.GetComponentInChildren<SpellStats>().stats;
+    }
+
+    public void OnEventRaised(MagicCircleBuiltInfo args)
+    {
+        this.magicCircle = args.magicCircleObject;
     }
 }
