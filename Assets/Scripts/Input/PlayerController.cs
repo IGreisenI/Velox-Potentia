@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookDirection), rotationSpeed * Time.deltaTime);
 
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
+        rb.velocity = moveDirection * moveSpeed;
 
         if (grounded) {
             rb.AddForce(Vector3.up * jump, ForceMode.Impulse);

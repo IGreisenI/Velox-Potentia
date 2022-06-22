@@ -8,6 +8,6 @@ public class SpellPosition : ModifySpell
     public override void modifySpell(GameObject spell, string position)
     {
         // Motify position relative to target
-        spell.gameObject.GetComponentInChildren<SpellStats>().stats.position = position;
+        spell.gameObject.GetComponentInChildren<Spell>().stats.position = position;
     }
 }

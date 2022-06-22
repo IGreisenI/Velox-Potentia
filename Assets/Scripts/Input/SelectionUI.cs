@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SelectionUI : MonoBehaviour
+public class SelectionUI : MonoBehaviour, IGameEventListener<ResetCastingInfo>
 {
     [SerializeField] private InputController _inputController = default;
     
@@ -13,6 +13,8 @@ public class SelectionUI : MonoBehaviour
 
     public MaxLayerEvent maxLayerEvent;
     public SpellSelectEvent spellSelectionEvent;
+    public ResetCastingEvent resetCastingEvent;
+
     public GameObject selection;
 
     private List<Transform> selectionButtons = new List<Transform>();
@@ -26,12 +28,15 @@ public class SelectionUI : MonoBehaviour
     {
         _inputController.selectSpellInputEvent += OnSelectInput;
         _inputController.cancelSpellInputEvent += OnCancelSpell;
+        resetCastingEvent.RegisterListener(this);
+
     }
 
     private void OnDisable()
     {
         _inputController.selectSpellInputEvent -= OnSelectInput;
         _inputController.cancelSpellInputEvent += OnCancelSpell;
+        resetCastingEvent.UnregisterListener(this);
     }
 
     // Start is called before the first frame update
@@ -77,7 +82,7 @@ public class SelectionUI : MonoBehaviour
 
     public void OnCancelSpell()
     {
-        resetSelectLayer();
+        resetCastingEvent.Raise(new ResetCastingInfo());
     }
 
     public void updateSelection(List<string> choices)
@@ -108,5 +113,10 @@ public class SelectionUI : MonoBehaviour
     {
         Cursor.lockState = lockMode;
         Cursor.visible = visible;
+    }
+
+    public void OnEventRaised(ResetCastingInfo arg)
+    {
+        resetSelectLayer();
     }
 }

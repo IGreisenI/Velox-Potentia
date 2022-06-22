@@ -9,15 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e89ef2904ff068c4f9b7d2ae4496ad09, type: 3}
-  m_Name: SpellStats
+  m_Script: {fileID: 11500000, guid: 67ce8c3cab3138740bccb4c4ca95e644, type: 3}
+  m_Name: ResetCastingEvent
   m_EditorClassIdentifier: 
-  element: Fire
-  type: 
-  from: From sky/ground
-  target: 
-  position: 
-  damage: 20
-  duration: 0
-  range: 25
-  uses: 1

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Shapes
   m_EditorClassIdentifier: 
   strings:
-  - Square
-  - Hex
-  - Triangle
-  - Star
-  - Diamond
-  - Circle
+  - Slow projectile
+  - Fast projectile
+  - Burst of energy
+  - Figure of energy
+  - Big burst of energy
+  - 

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MagicCircleBuild : MonoBehaviour, IGameEventListener<SpellSelectEventInfo>, IGameEventListener<MaxLayer>
+public class MagicCircleBuild : MonoBehaviour, IGameEventListener<SpellSelectEventInfo>, IGameEventListener<MaxLayer>, IGameEventListener<ResetCastingInfo>
 {
-    [SerializeField] private InputController _inputController = default;
-
     public SpellSelectEvent spellSelectEvent;
     public MagicCircleBuiltEvent magicCircleBuiltEvent;
     public MaxLayerEvent maxLayerEvent;
+    public ResetCastingEvent resetCastingEvent;
 
     public GameObject magicCirclePrefab;
     GameObject magicCircle;
@@ -22,14 +21,14 @@ public class MagicCircleBuild : MonoBehaviour, IGameEventListener<SpellSelectEve
     {
         spellSelectEvent.RegisterListener(this);
         maxLayerEvent.RegisterListener(this);
-        _inputController.cancelSpellInputEvent += OnCancelSpell;
+        resetCastingEvent.RegisterListener(this);
     }
 
     public void OnDisable()
     {
         spellSelectEvent.UnregisterListener(this);
         maxLayerEvent.UnregisterListener(this);
-        _inputController.cancelSpellInputEvent -= OnCancelSpell;
+        resetCastingEvent.UnregisterListener(this);
     }
 
     public void Start()
@@ -44,8 +43,9 @@ public class MagicCircleBuild : MonoBehaviour, IGameEventListener<SpellSelectEve
             this.magicCircle = Instantiate(magicCirclePrefab, new Vector3(0, 0, 0), this.transform.rotation);
             this.magicCircleTransform = this.magicCircle.transform;
             this.magicCircleTransform.parent = this.transform;
-            this.magicCircleTransform.localScale = new Vector3(2,2,2);
+            this.magicCircleTransform.localScale = new Vector3(2, 2, 2);
             this.magicCircleTransform.localPosition = new Vector3(0, 1.5f, 1.5f);
+            this.magicCircle.AddComponent<FixedJoint>().connectedBody = GetComponent<Rigidbody>();
             for (int i = 0; i < magicCircleTransform.childCount; i++)
             {
                 magicCircleSprites.Add(magicCircleTransform.GetChild(i).GetComponent<SpriteRenderer>());
@@ -62,7 +62,7 @@ public class MagicCircleBuild : MonoBehaviour, IGameEventListener<SpellSelectEve
         magicCircleBuiltEvent.Raise(new MagicCircleBuiltInfo(this.magicCircle));
     }
 
-    public void OnCancelSpell()
+    public void OnEventRaised(ResetCastingInfo arg)
     {
         Destroy(this.magicCircle);
         magicCircleSprites = new List<SpriteRenderer>();

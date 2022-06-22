@@ -7,6 +7,6 @@ public class SpellTarget : ModifySpell
 {
     public override void modifySpell(GameObject spell, string target)
     {
-        spell.gameObject.GetComponentInChildren<SpellStats>().stats.target = target;
+        spell.gameObject.GetComponentInChildren<Spell>().stats.target = target;
     }
 }

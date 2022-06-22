@@ -8,6 +8,6 @@ public class SpellDuration : ModifySpell
 {
     public override void modifySpell(GameObject spell, string duration)
     {
-        spell.gameObject.GetComponentInChildren<SpellStats>().stats.duration = Int32.Parse(duration);
+        spell.gameObject.GetComponentInChildren<Spell>().stats.duration = Int32.Parse(duration);
     }
 }

@@ -47,7 +47,9 @@ public class InputController : ScriptableObject, VeloxActions.IPlayerActions
     public void OnCast(InputAction.CallbackContext context)
     {
         if (castSpellInputEvent != null && context.phase == InputActionPhase.Performed)
+        {
             castSpellInputEvent.Invoke();
+        }
     }
 
     public void OnSelect(InputAction.CallbackContext context)

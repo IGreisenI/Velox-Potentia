@@ -8,6 +8,6 @@ public class SpellRange : ModifySpell
 {
     public override void modifySpell(GameObject spell, string range)
     {
-        spell.gameObject.GetComponentInChildren<SpellStats>().stats.range = Int32.Parse(range);
+        spell.gameObject.GetComponentInChildren<Spell>().stats.range = Int32.Parse(range);
     }
 }

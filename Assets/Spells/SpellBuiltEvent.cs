@@ -4,11 +4,11 @@ using UnityEngine;
 
 public struct SpellBuiltEventInfo
 {
-    public GameObject spellObject;
+    public List<GameObject> spellObjects;
 
-    public SpellBuiltEventInfo(GameObject spellObject) : this()
+    public SpellBuiltEventInfo(List<GameObject> spellObjects) : this()
     {
-        this.spellObject = spellObject;
+        this.spellObjects = spellObjects;
     }
 }
 
