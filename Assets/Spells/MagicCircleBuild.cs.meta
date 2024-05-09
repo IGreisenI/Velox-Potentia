@@ -3,7 +3,13 @@ guid: a2f907ee0102c8942aff0be43af2a5fd
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - spellSelectEvent: {instanceID: 0}
+  - magicCircleBuiltEvent: {instanceID: 0}
+  - maxLayerEvent: {instanceID: 0}
+  - resetCastingEvent: {instanceID: 0}
+  - listOfColor: {fileID: 11400000, guid: 46c6b845cd1138e4594bc4df730a7919, type: 2}
+  - magicCirclePrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

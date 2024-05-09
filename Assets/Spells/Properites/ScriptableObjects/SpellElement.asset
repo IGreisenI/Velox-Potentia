@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3832e392eb588e6428f2accddcab9567, type: 3}
   m_Name: SpellElement
   m_EditorClassIdentifier: 
-  spellStats: {fileID: 11400000, guid: ee4442cbf300eca41ac7a98d0df4ad67, type: 2}
+  choiceStats: {fileID: 11400000, guid: 2c211657cdb76264999e9f1a5cc41476, type: 2}

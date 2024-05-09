@@ -3,7 +3,15 @@ guid: 242794a569bba0349ade4f5ed7cdc9ff
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - baseSpellPrefab: {instanceID: 0}
+  - spellSelectEvent: {fileID: 11400000, guid: 945fd070719392b4a816d8cde4c108c8, type: 2}
+  - spellBuiltEvent: {instanceID: 0}
+  - maxLayerEvent: {instanceID: 0}
+  - resetCastingEvent: {instanceID: 0}
+  - offensiveSpellPhases: {instanceID: 0}
+  - defensiveSpellPhases: {instanceID: 0}
+  - utilitySpellPhases: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -7,7 +7,8 @@ public class SpellType : ModifySpell
 {
     public override void modifySpell(GameObject spell, string type)
     {
-        spell.gameObject.GetComponentInChildren<Spell>().stats.type = type;
+        Spell spellScript = spell.gameObject.GetComponentInChildren<Spell>();
+        spellScript.stats.addStats(this.choiceStats.getModifier(type));
     }
 
 }

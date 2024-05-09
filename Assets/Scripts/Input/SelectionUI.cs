@@ -9,7 +9,7 @@ public class SelectionUI : MonoBehaviour, IGameEventListener<ResetCastingInfo>
     [SerializeField] private InputController _inputController = default;
     
     [SerializeField]
-    public StringListSO MagicTypes;
+    private StringListSO MagicTypes;
 
     public MaxLayerEvent maxLayerEvent;
     public SpellSelectEvent spellSelectionEvent;
@@ -20,9 +20,9 @@ public class SelectionUI : MonoBehaviour, IGameEventListener<ResetCastingInfo>
     private List<Transform> selectionButtons = new List<Transform>();
     private List<UISelectSpellButton> buttonScripts = new List<UISelectSpellButton>();
 
-    int selectLayer = 0;
+    public int selectLayer = 0;
     // Default value
-    int maxLayer = 5;
+    public int maxLayer = 5;
     
     private void OnEnable()
     {
@@ -35,57 +35,58 @@ public class SelectionUI : MonoBehaviour, IGameEventListener<ResetCastingInfo>
     private void OnDisable()
     {
         _inputController.selectSpellInputEvent -= OnSelectInput;
-        _inputController.cancelSpellInputEvent += OnCancelSpell;
+        _inputController.cancelSpellInputEvent -= OnCancelSpell;
         resetCastingEvent.UnregisterListener(this);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < selection.transform.childCount; i++)
-        {
-            selectionButtons.Add(selection.transform.GetChild(i));
-            buttonScripts.Add(selectionButtons[i].GetComponentInChildren<UISelectSpellButton>());
-        }
+        buttonScripts.AddRange(selection.GetComponentsInChildren<UISelectSpellButton>());
     }
 
     public void OnSelectInput(float select)
     {
-        if (selectLayer < maxLayer)
-        {
-            if (select > 0)
-            {
-                switchCursorState(true, CursorLockMode.Confined);
-                selection.SetActive(true);
-            }
-            else
-            {
-                foreach (UISelectSpellButton script in buttonScripts)
-                {
-                    if (script.state && script.buttonInfo.choice != "")
-                    {
-                        spellSelectionEvent.Raise(new SpellSelectEventInfo(script.buttonInfo, selectLayer));
-                        script.state = false;
-                        selectLayer += 1;
-                    }
-                }
-                selection.SetActive(false);
-                switchCursorState(false, CursorLockMode.Locked);
-            }
+        if (selectLayer >= maxLayer) return;
 
-            if (selectLayer == maxLayer - 1)
+        if (select > 0)
+        {
+            SetUI(true, CursorLockMode.Confined);
+        }
+        else
+        {
+            foreach (UISelectSpellButton script in buttonScripts)
             {
-                maxLayerEvent.Raise(new MaxLayer());
+                if (script.State && script.GetButtonInfo().choice != "")
+                {
+                    spellSelectionEvent.Raise(new SpellSelectEventInfo(script.GetButtonInfo(), selectLayer));
+                    script.State = false;
+                    selectLayer += 1;
+                }
             }
+            SetUI(false, CursorLockMode.Locked);
+        }
+
+        if (selectLayer == maxLayer)
+        {
+            maxLayerEvent.Raise(new MaxLayer());
         }
     }
+
+    #region HelperMethods
+    private void SetUI(bool active, CursorLockMode cursorState)
+    {
+        SwitchCursorState(active, cursorState);
+        selection.SetActive(active);
+    }
+    #endregion HelperMethods
 
     public void OnCancelSpell()
     {
         resetCastingEvent.Raise(new ResetCastingInfo());
     }
 
-    public void updateSelection(List<string> choices)
+    public void UpdateSelection(List<string> choices)
     {
         for (int i = 0; i < choices.Count; i++)
         {
@@ -93,12 +94,12 @@ public class SelectionUI : MonoBehaviour, IGameEventListener<ResetCastingInfo>
         }
     }
 
-    public void setMaxSelectLayer(int max)
+    public void SetMaxSelectLayer(int max)
     {
         this.maxLayer = max;
     }
 
-    public void resetSelectLayer()
+    public void ResetSelectLayer()
     {
         selectLayer = 0;
 
@@ -109,7 +110,7 @@ public class SelectionUI : MonoBehaviour, IGameEventListener<ResetCastingInfo>
         }
     }
 
-    private void switchCursorState(bool visible, CursorLockMode lockMode)
+    private void SwitchCursorState(bool visible, CursorLockMode lockMode)
     {
         Cursor.lockState = lockMode;
         Cursor.visible = visible;
@@ -117,6 +118,6 @@ public class SelectionUI : MonoBehaviour, IGameEventListener<ResetCastingInfo>
 
     public void OnEventRaised(ResetCastingInfo arg)
     {
-        resetSelectLayer();
+        ResetSelectLayer();
     }
 }

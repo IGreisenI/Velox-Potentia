@@ -9,13 +9,103 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c071a98766b3190448d4754fb33cdfe3, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d8f5dc0b0ef93845a57cf764de7bf10, type: 3}
   m_Name: Elements
   m_EditorClassIdentifier: 
-  strings:
-  - Earth
-  - Grass
-  - Chaos
-  - Fire
-  - Water
-  - Air
+  layerChoices:
+  - choice: Water
+    modifiers:
+      spellType: 
+      element: Water
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 10
+      speed: 0
+      manaCost: 0
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: Earth
+    modifiers:
+      spellType: 
+      element: Earth
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 10
+      speed: 0
+      manaCost: 0
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: Air
+    modifiers:
+      spellType: 
+      element: Air
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 10
+      speed: 0
+      manaCost: 0
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: Fire
+    modifiers:
+      spellType: 
+      element: Fire
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 10
+      speed: 0
+      manaCost: 0
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: Grass
+    modifiers:
+      spellType: 
+      element: Grass
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 10
+      speed: 0
+      manaCost: 0
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: Chaos
+    modifiers:
+      spellType: 
+      element: Chaos
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 10
+      speed: 0
+      manaCost: 0
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}

@@ -7,7 +7,7 @@ public class SpellElement : ModifySpell
 { 
     public override void modifySpell(GameObject spell, string element)
     {
-        spell.GetComponentInChildren<Renderer>().material = Resources.Load<Material>("Materials/material_" + element);
-        spell.GetComponentInChildren<Spell>().stats.element = element;
+        Spell spellScript = spell.gameObject.GetComponentInChildren<Spell>();
+        spellScript.stats.addStats(this.choiceStats.getModifier(element));
     }
 }

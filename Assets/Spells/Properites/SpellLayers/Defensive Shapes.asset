@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d8f5dc0b0ef93845a57cf764de7bf10, type: 3}
+  m_Name: Defensive Shapes
+  m_EditorClassIdentifier: 
+  layerChoices:
+  - choice: Shield
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: shield
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 2
+      scaleOnCast: {x: 1, y: 1, z: 1}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: Wall
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: wall
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 4
+      scaleOnCast: {x: 1, y: 1, z: 1}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: Bubble
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: bubble
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 10
+      scaleOnCast: {x: 1, y: 1, z: 1}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: Barrier
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: barrier
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 2
+      scaleOnCast: {x: 1, y: 1, z: 1}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: 
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 0
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 1}
+  - choice: 
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: 
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 0
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}

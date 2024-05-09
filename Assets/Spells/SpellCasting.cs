@@ -5,24 +5,21 @@ using UnityEditor;
 using System;
 using UnityEngine.Events;
 
-public class SpellCasting : MonoBehaviour, IGameEventListener<SpellBuiltEventInfo>, IGameEventListener<MagicCircleBuiltInfo>, IGameEventListener<ResetCastingInfo>
+public class SpellCasting : MonoBehaviour, IGameEventListener<SpellBuiltEventInfo>, IGameEventListener<MagicCircleBuiltInfo>, IGameEventListener<ResetCastingInfo>, IGameEventListener<SpellCastInfo>
 {
-    [SerializeField] private InputController _inputController = default;
-
     public SpellBuiltEvent spellBuiltEvent;
+    public SpellCastEvent spellCastEvent;
     public MagicCircleBuiltEvent magicCircleBuiltEvent;
     public ResetCastingEvent resetCastingEvent;
-
-    public GameObject player;
-    public Camera playerCamera;
-    public int magicCircleScale = 3;
-    public List<GameObject> spellObjects;
     
+    public int magicCircleScale = 3;
+    public List<Spell> spellObjects;
+    public Camera playerCamera;
+
     [Serializable]
     public class ResetCasting : UnityEvent<int> { }
     public ResetCasting spellSelectResponse;
 
-    private bool spellBuilt;
     private GameObject magicCircle;
     private Spell spell;
 
@@ -30,7 +27,7 @@ public class SpellCasting : MonoBehaviour, IGameEventListener<SpellBuiltEventInf
 
     private void OnEnable()
     {
-        _inputController.castSpellInputEvent += OnCast;
+        spellCastEvent.RegisterListener(this);
         spellBuiltEvent.RegisterListener(this);
         magicCircleBuiltEvent.RegisterListener(this);
         resetCastingEvent.RegisterListener(this);
@@ -38,7 +35,7 @@ public class SpellCasting : MonoBehaviour, IGameEventListener<SpellBuiltEventInf
 
     private void OnDisable()
     {
-        _inputController.castSpellInputEvent -= OnCast;
+        spellCastEvent.UnregisterListener(this);
         spellBuiltEvent.UnregisterListener(this);
         magicCircleBuiltEvent.UnregisterListener(this);
         resetCastingEvent.UnregisterListener(this);
@@ -57,17 +54,22 @@ public class SpellCasting : MonoBehaviour, IGameEventListener<SpellBuiltEventInf
         }
     }
 
-    public void OnCast()
+    public void OnCast(Ray ray)
     {
         // If spell/magic circle is not built don't execute past this point
         if (spellObjects.Count == 0 || !magicCircle)
             return;
 
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-
-        SpellsMagicCircle info = SpellFrom.castSpellFrom(this.spellObjects, spell, magicCircle, ray, this.magicCircleFrom);
+        SpellsMagicCircle info = SpellFrom.castSpellFrom(this.spellObjects, this.spell, magicCircle, ray, this.magicCircleFrom);
         this.spellObjects = info.spells;
         this.magicCircleFrom = info.magicCircle;
+
+        Spell castedSpell = this.spellObjects.Find(spl => spl.casted);
+        if(castedSpell != null)
+        {
+            gameObject.GetComponent<Unit>().changeMana(-castedSpell.GetComponent<Spell>().stats.manaCost);
+            this.spellObjects.Remove(castedSpell);
+        }
 
         if(this.spellObjects.Count == 0)
         {
@@ -95,28 +97,45 @@ public class SpellCasting : MonoBehaviour, IGameEventListener<SpellBuiltEventInf
         resetCasting();
     }
 
-    public void magicCircleParent()
-    {
-        if (spellObjects.Count == 0 || !magicCircle)
-            return;
-
-        foreach (GameObject spell in this.spellObjects)
-        {
-            spell.GetComponent<FixedJoint>().connectedBody = this.magicCircle.GetComponent<Rigidbody>();
-            spell.transform.parent = this.magicCircle.transform;
-        }
-    }
-
     public void resetCasting()
     {
         this.spell = null;
         this.spellObjects.ForEach(spell => Destroy(spell));
-        this.spellObjects = new List<GameObject>();
+        this.spellObjects.Clear();
 
         // MagicCircleCleanup
         Destroy(magicCircle);
         Destroy(magicCircleFrom, 15);
         this.magicCircle = null;
         this.magicCircleFrom = null;
+    }
+
+    public void magicCircleParent()
+    {
+        if (spellObjects.Count == 0 || !magicCircle)
+            return;
+
+        foreach (Spell spell in this.spellObjects)
+        {
+            spell.transform.parent = this.magicCircle.transform;
+        }
+    }
+
+    public void OnEventRaised(SpellCastInfo arg)
+    {
+        Ray ray;
+        Camera playerCamera = GetComponentInChildren<Camera>();
+        if (playerCamera != null)
+        {
+            ray = playerCamera.ScreenPointToRay(arg.at);
+        }
+        else
+        {
+            Vector3 direction = arg.at - this.transform.position;
+
+            ray = new Ray(this.transform.position, direction.normalized);
+        }
+
+        OnCast(ray);
     }
 }

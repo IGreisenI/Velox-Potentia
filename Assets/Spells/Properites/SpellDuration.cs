@@ -8,6 +8,7 @@ public class SpellDuration : ModifySpell
 {
     public override void modifySpell(GameObject spell, string duration)
     {
-        spell.gameObject.GetComponentInChildren<Spell>().stats.duration = Int32.Parse(duration);
+        Spell spellScript = spell.gameObject.GetComponentInChildren<Spell>();
+        spellScript.stats.addStats(this.choiceStats.getModifier(duration));
     }
 }

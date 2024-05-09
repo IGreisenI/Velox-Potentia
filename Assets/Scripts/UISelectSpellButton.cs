@@ -5,38 +5,56 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[System.Serializable]
 public struct SpellSelectButtonInfo
 {
     public string choice;
     public Sprite shape;
+
+    public SpellSelectButtonInfo(string choice, Sprite shape) : this()
+    {
+        this.choice = choice;
+        this.shape = shape;
+    }
 }
 
 public class UISelectSpellButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public bool state = false;
-    public SpellSelectButtonInfo buttonInfo;
+    [SerializeField]
+    private bool _state;
+
+    private SpellSelectButtonInfo _buttonInfo;
+    public bool State { get=>_state; internal set=>_state=value; }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        state = true;
+        State = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        state = false;
+        State = false;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         this.GetComponent<Image>().alphaHitTestMinimumThreshold = 0.5f;
-        buttonInfo.choice = this.gameObject.GetComponentInChildren<TMP_Text>().text;
+        _buttonInfo.choice = this.gameObject.GetComponentInChildren<TMP_Text>().text;
     }
     
     public void updateButtonText(string choice)
     {
-        buttonInfo.choice = choice;
+        _buttonInfo.choice = choice;
         this.gameObject.GetComponentInChildren<TMP_Text>().text = choice;
+    }
+
+    public SpellSelectButtonInfo GetButtonInfo()
+    {
+        return _buttonInfo;
+    }
+
+    public void SetButtonInfo(SpellSelectButtonInfo buttonInfo)
+    {
+        this._buttonInfo = buttonInfo;
     }
 }

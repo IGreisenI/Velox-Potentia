@@ -6,7 +6,7 @@ using Cinemachine;
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private InputController _inputController = default;
-
+    
     public CinemachineFreeLook playerCamera;
 
     private void Start()

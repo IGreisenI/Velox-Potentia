@@ -12,8 +12,7 @@ public interface IModifySpell
 [Serializable]
 public abstract class ModifySpell : ScriptableObject, IModifySpell
 {
-    public StringListSO spellStats;
+    public LayerSO choiceStats;
 
     public abstract void modifySpell(GameObject spell, string shape);
-
 }

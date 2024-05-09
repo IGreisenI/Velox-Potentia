@@ -9,13 +9,103 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c071a98766b3190448d4754fb33cdfe3, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d8f5dc0b0ef93845a57cf764de7bf10, type: 3}
   m_Name: From
   m_EditorClassIdentifier: 
-  strings:
-  - From sky/ground
-  - From sky/ground multiple
-  - From caster multiple
-  - At a target multiple
-  - At a target
-  - From caster
+  layerChoices:
+  - choice: From sky/ground
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: From sky/ground
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 2
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: From sky/ground multiple
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: From sky/ground multiple
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 10
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: From caster multiple
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: From caster multiple
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 4
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: At target multiple
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: At target multiple
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 8
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: At target
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: At target
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 2
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}
+  - choice: From caster
+    modifiers:
+      spellType: 
+      element: 
+      type: 
+      from: From caster
+      target: 
+      position: 
+      shape: 
+      duration: 0
+      range: 0
+      damage: 0
+      speed: 0
+      manaCost: 1
+      scaleOnCast: {x: 0, y: 0, z: 0}
+      defensiveRotation: {x: 0, y: 0, z: 0, w: 0}

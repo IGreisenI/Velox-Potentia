@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellPhasesList:
   - {fileID: 11400000, guid: 6c8ce6e099876d34d96eb253fc1ffdb8, type: 2}
-  - {fileID: 11400000, guid: 4f021ba37e6cd6f49af41d47abc02574, type: 2}
+  - {fileID: 11400000, guid: 5e1e561722fbdc44582cceb61df5d00a, type: 2}
   - {fileID: 11400000, guid: 67053350827246d4193f5cb0f5dece04, type: 2}
+  - {fileID: 11400000, guid: 4b732f91f92e8264894482c8c63ff1c0, type: 2}
   - {fileID: 11400000, guid: ff8045ca87f10484d9d51b29e78b89e5, type: 2}

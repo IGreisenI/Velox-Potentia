@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 523ae7bcf8bdd28439e4f6cb75213f8d, type: 3}
   m_Name: InputController
   m_EditorClassIdentifier: 
+  spellCastEvent: {fileID: 11400000, guid: fe446562c8da71a41ab1a6b650d969fc, type: 2}

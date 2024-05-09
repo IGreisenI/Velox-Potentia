@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1ce9844551102254b9798091f1bf690a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - player: {instanceID: 0}
+  - playerModel: {instanceID: 0}
+  - stats: {instanceID: 0}
+  - playerUnit: {instanceID: 0}
+  - events: {instanceID: 0}
+  - enemyDeathEvent: {fileID: 11400000, guid: 6db80376e3459e54a8b288b7b5742627, type: 2}
+  - spritesSO: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

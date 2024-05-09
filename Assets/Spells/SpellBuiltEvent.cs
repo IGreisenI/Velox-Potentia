@@ -4,9 +4,9 @@ using UnityEngine;
 
 public struct SpellBuiltEventInfo
 {
-    public List<GameObject> spellObjects;
+    public List<Spell> spellObjects;
 
-    public SpellBuiltEventInfo(List<GameObject> spellObjects) : this()
+    public SpellBuiltEventInfo(List<Spell> spellObjects) : this()
     {
         this.spellObjects = spellObjects;
     }

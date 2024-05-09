@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d451dfc0aa8bd4c4b9288aa1a5856cde, type: 3}
   m_Name: SpellShape
   m_EditorClassIdentifier: 
-  spellStats: {fileID: 11400000, guid: 49cdc1339937ac548b94e2e99d44e347, type: 2}
+  choiceStats: {fileID: 11400000, guid: f43cf206c8e5971419a9df3bc8c39763, type: 2}
+  listOfColor: {fileID: 11400000, guid: 46c6b845cd1138e4594bc4df730a7919, type: 2}

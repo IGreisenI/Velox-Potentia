@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5668c469a030d54d949bcabc5402084, type: 3}
   m_Name: SpellDuration
   m_EditorClassIdentifier: 
-  spellStats: {fileID: 11400000, guid: bfa63384aee200e43bdf1c7b02698edc, type: 2}
+  choiceStats: {fileID: 11400000, guid: a7edd6f00eeb33b4fbf757f82c00e6e3, type: 2}

@@ -8,10 +8,11 @@ public class InputController : ScriptableObject, VeloxActions.IPlayerActions
 {
     public event UnityAction<Vector2> moveInputEvent;
     public event UnityAction<float> jumpInputEvent;
-    public event UnityAction<float> selectSpellInputEvent;
-    public event UnityAction castSpellInputEvent;
-    public event UnityAction cancelSpellInputEvent;
 
+    public event UnityAction<float> selectSpellInputEvent;
+    public event UnityAction cancelSpellInputEvent;
+    
+    public SpellCastEvent spellCastEvent;
     private VeloxActions controls;
 
     private void OnEnable()
@@ -46,9 +47,9 @@ public class InputController : ScriptableObject, VeloxActions.IPlayerActions
 
     public void OnCast(InputAction.CallbackContext context)
     {
-        if (castSpellInputEvent != null && context.phase == InputActionPhase.Performed)
+        if (spellCastEvent != null && context.phase == InputActionPhase.Performed)
         {
-            castSpellInputEvent.Invoke();
+            spellCastEvent.Raise(new SpellCastInfo(Input.mousePosition));
         }
     }
 
@@ -78,6 +79,9 @@ public class InputController : ScriptableObject, VeloxActions.IPlayerActions
 
     public void OnLook(InputAction.CallbackContext context)
     {
+    }
 
+    public void OnSprint(InputAction.CallbackContext context)
+    {
     }
 }

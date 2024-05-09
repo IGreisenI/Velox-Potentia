@@ -4,7 +4,13 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/OutdoorsScene.unity
+    guid: 8124e5870f4fd4c779e7a5f994e84ad1
+  - enabled: 1
+    path: Assets/Scenes/TestShaders.unity
+    guid: 98ed36f42d9762f419e02db48ea7c8b3
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9b46373efa1ef3347b83426d182b885e,
       type: 2}

@@ -13,8 +13,29 @@ public class SpellStats
     public string position;
     public string shape;
     public int duration;
-    public int range;
 
-    public int damage = 0;
-    public int speed = 1;
+    public float range;
+    public float damage = 0;
+    public float speed = 1;
+    public float manaCost = 0;
+    public Vector3 scaleOnCast;
+    public Quaternion defensiveRotation;
+
+    public void addStats(SpellStats mod)
+    {
+        this.spellType = mod.spellType != "" ? mod.spellType : this.spellType;
+        this.element = mod.element != "" ? mod.element : this.element;
+        this.type = mod.type != "" ? mod.type : this.type;
+        this.from = mod.from != "" ? mod.from : this.from;
+        this.target = mod.target != "" ? mod.target : this.target;
+        this.position = mod.position != "" ? mod.position : this.position;
+        this.shape = mod.shape != "" ? mod.shape : this.shape;
+        this.defensiveRotation = mod.defensiveRotation != new Quaternion(0, 0, 0, 0) ? mod.defensiveRotation : this.defensiveRotation;
+        this.duration += mod.duration;
+        this.range += mod.range;
+        this.damage += mod.damage;
+        this.speed += mod.speed;
+        this.scaleOnCast += mod.scaleOnCast;
+        this.manaCost += mod.manaCost;
+    }
 }

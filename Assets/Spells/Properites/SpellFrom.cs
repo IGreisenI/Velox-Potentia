@@ -7,11 +7,11 @@ public class SpellFrom : ModifySpell
 {
     public override void modifySpell(GameObject spell, string from)
     {
-        Spell spellLogic = spell.gameObject.GetComponentInChildren<Spell>();
-        spellLogic.stats.from = from;
+        Spell spellScript = spell.gameObject.GetComponentInChildren<Spell>();
+        spellScript.stats.addStats(this.choiceStats.getModifier(from));
     }
 
-    public static SpellsMagicCircle castSpellFrom(List<GameObject> spellObjects, Spell spell, GameObject magicCircle, Ray ray, GameObject magicCircleFrom)
+    public static SpellsMagicCircle castSpellFrom(List<Spell> spellObjects, Spell spell, GameObject magicCircle, Ray ray, GameObject magicCircleFrom)
     {
         SpellsMagicCircle returnInfo = new SpellsMagicCircle();
         returnInfo.magicCircle = magicCircleFrom;
@@ -27,25 +27,29 @@ public class SpellFrom : ModifySpell
                     return returnInfo;
                 }
             }
-
+            
             Vector3 hitPos = hit.point;
             Vector3 normalDir = hit.normal;
 
             Vector3 right = Vector3.Cross(normalDir, hitPos.normalized);
             Vector3 forward = Vector3.Cross(right.normalized, normalDir);
 
+            //Distance check
+            if (Vector3.Distance(magicCircle.transform.position, hitPos) > spell.stats.range)
+                hitPos = (hitPos - magicCircle.transform.position).normalized * spell.stats.range;
+
             if (!magicCircleFrom && !spell.stats.from.ToLower().Contains("caster"))
             {
-                magicCircleFrom = Instantiate(magicCircle, hit.point + normalDir / 10, Quaternion.LookRotation(normalDir, forward));
+                magicCircleFrom = Instantiate(magicCircle, hitPos + normalDir / 10, Quaternion.LookRotation(normalDir, forward));
                 Destroy(magicCircleFrom.GetComponent<FixedJoint>());
                 Transform magicCircleFromTransform = magicCircleFrom.transform;
                 returnInfo.magicCircle = magicCircleFrom;
                 spellObjects.ForEach(spellObject => Destroy(spellObject));
-                spellObjects = new List<GameObject>();
+                spellObjects.Clear();
 
                 for (int i = 0; i < magicCircleFromTransform.childCount; i++)
                 {
-                    GameObject spellChild = magicCircleFromTransform.GetChild(i).gameObject;
+                    Spell spellChild = magicCircleFromTransform.GetChild(i).GetComponent<Spell>();
                     Destroy(spellChild.GetComponent<FixedJoint>());
                     if (spellChild.TryGetComponent(out Spell spellScript))
                     {
@@ -55,22 +59,28 @@ public class SpellFrom : ModifySpell
             }
             else
             {
-                if (spell.stats.from.ToLower().Contains("sky/ground"))
+                if (!spell.stats.from.ToLower().Contains("caster"))
                 {
-                    GameObject magicCircleAim = Instantiate(magicCircle, hit.point + normalDir / 10, Quaternion.LookRotation(normalDir, forward));
+                    //Distance check
+                    if (Vector3.Distance(magicCircleFrom.transform.position, hitPos) > spell.stats.range)
+                        hitPos = (hitPos - magicCircleFrom.transform.position).normalized * spell.stats.range;
+            
+                    magicCircleFrom.transform.LookAt(hit.point, Vector3.up);
+                    returnInfo.magicCircle = magicCircleFrom;
+
+                    GameObject magicCircleAim = Instantiate(magicCircle, hitPos + normalDir / 10, Quaternion.LookRotation(normalDir, forward));
                     Destroy(magicCircleAim.GetComponent<FixedJoint>());
                     Destroy(magicCircleAim, 30);
                 }
-                spellObjects[spellObjects.Count - 1].GetComponent<Spell>().castSpell(hit.point);
-                spellObjects.RemoveAt(spellObjects.Count - 1);
+
+                spellObjects[spellObjects.Count - 1].GetComponent<Spell>().castSpell(hitPos);
             }
         }
         else
         {
             if (spell.stats.from.ToLower().Contains("caster"))
             {
-                spellObjects[spellObjects.Count - 1].GetComponent<Spell>().castSpell(ray.direction * 10000);
-                spellObjects.RemoveAt(spellObjects.Count - 1);
+                spellObjects[spellObjects.Count - 1].GetComponent<Spell>().castSpell(ray.direction * spell.stats.range);
             }
         }
         returnInfo.spells = spellObjects;
@@ -80,6 +90,6 @@ public class SpellFrom : ModifySpell
 
 public struct SpellsMagicCircle
 {
-    public List<GameObject> spells;
+    public List<Spell> spells;
     public GameObject magicCircle;
 }
